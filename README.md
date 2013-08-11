@@ -1,4 +1,7 @@
 Simple DNS server
 =================
 
-[libuv](https://github.com/joyent/libuv) based dns server implementation
+requirements:
+
+* [libuv](https://github.com/joyent/libuv)
+* [jansson](https://github.com/akheron/jansson)
