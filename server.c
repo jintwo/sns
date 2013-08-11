@@ -12,8 +12,8 @@
 #include <uv.h>
 #include <jansson.h>
 
-#import "server.h"
-#import "utils.h"
+#include "server.h"
+#include "utils.h"
 
 uv_loop_t *loop;
 uv_udp_t server;

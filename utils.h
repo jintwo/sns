@@ -9,7 +9,7 @@
 #ifndef DNS_UTILS_H
 #define DNS_UTILS_H
 
-#import <stdbool.h>
+#include <stdbool.h>
 
 extern void *read_uint8(void *buffer, unsigned char *value);
 extern void *read_uint16(void *buffer, unsigned short *value, bool order_hl);
