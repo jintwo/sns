@@ -1,8 +1,13 @@
 CC=cc
-CFLAGS=-g -c -Wall
-LDFLAGS=-luv -ljansson
+CFLAGS=-I./libuv/include -I./jansson/include -g -c -Wall
+LDFLAGS=-L./libuv/lib -L./jansson/lib -luv -ljansson
 
-all: test server
+all: libs test server
+
+libs:
+	git submodule update --init
+	cd libuv && sh autogen.sh && ./configure --prefix=`pwd` && make && make install
+	cd jansson && autoreconf -i && ./configure --prefix=`pwd` && make && make install
 
 test: test.o utils.o
 	$(CC) $(LDFLAGS) -o $@ test.o utils.o

@@ -1,0 +1,6 @@
+[submodule "libuv"]
+	path = libuv
+	url = git@github.com:joyent/libuv.git
+[submodule "jansson"]
+	path = jansson
+	url = git@github.com:akheron/jansson.git

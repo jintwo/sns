@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+
 #include <uv.h>
 #include <jansson.h>
 
@@ -525,7 +526,7 @@ int main(int argc, const char *argv[])
 
     err = uv_udp_recv_start(&server, alloc_buffer, on_read);
     if (err) {
-        fprintf(stderr, "can't listen: %s\n", uv_err_name(uv_last_error(loop)));
+        fprintf(stderr, "can't listen: %s\n", uv_err_name(err));
         return 1;
     }
 
