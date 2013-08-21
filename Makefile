@@ -10,21 +10,21 @@ libs:
 	cd jansson && autoreconf -i && ./configure --prefix=`pwd` && make && make install
 
 test: test.o utils.o
-	$(CC) $(LDFLAGS) -o $@ test.o utils.o
+	$(CC) $(LDFLAGS) -o $@ $?
 	./test
 	@echo ""
 
 server: server.o utils.o
-	$(CC) $(LDFLAGS) -o $@ server.o utils.o
+	$(CC) $(LDFLAGS) -o $@ $?
 
 test.o: test.c
-	$(CC) $(CFLAGS) -c test.c
+	$(CC) $(CFLAGS) -c $?
 
 utils.o: utils.c
-	$(CC) $(CFLAGS) -c utils.c
+	$(CC) $(CFLAGS) -c $?
 
 server.o: server.c
-	$(CC) $(CFLAGS) -c server.c
+	$(CC) $(CFLAGS) -c $?
 
 clean:
 	rm -rf *.o server test
