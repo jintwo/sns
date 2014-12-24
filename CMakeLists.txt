@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.6)
+project(devns)
+include_directories("libuv/include" "jansson/include")
+link_directories("${CMAKE_SOURCE_DIR}/libuv/lib" "${CMAKE_SOURCE_DIR}/jansson/lib")
+add_executable(server server.c utils.c dns.c)
+target_link_libraries(server "uv" "jansson")

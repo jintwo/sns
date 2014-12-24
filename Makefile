@@ -2,6 +2,17 @@ CC=cc
 CFLAGS=-I./libuv/include -I./jansson/include -g -c -Wall
 LDFLAGS=-L./libuv/lib -L./jansson/lib -luv -ljansson
 
+.PHONY: clean
+
+server: server.o dns.o utils.o
+	$(CC) $(LDFLAGS) -o $@ $?
+
+clean:
+	rm -rf *.o server test
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $?
+
 all: libs test server
 
 libs:
@@ -13,18 +24,3 @@ test: test.o utils.o
 	$(CC) $(LDFLAGS) -o $@ $?
 	./test
 	@echo ""
-
-server: server.o utils.o
-	$(CC) $(LDFLAGS) -o $@ $?
-
-test.o: test.c
-	$(CC) $(CFLAGS) -c $?
-
-utils.o: utils.c
-	$(CC) $(CFLAGS) -c $?
-
-server.o: server.c
-	$(CC) $(CFLAGS) -c $?
-
-clean:
-	rm -rf *.o server test
