@@ -2,7 +2,7 @@ CC=cc
 CFLAGS=-I./libuv/include -I./jansson/include -g -c -Wall
 LDFLAGS=-L./libuv/lib -L./jansson/lib -luv -ljansson
 
-.PHONY: clean
+.PHONY: clean server
 
 server: server.o dns.o utils.o
 	$(CC) $(LDFLAGS) -o $@ $?

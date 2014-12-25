@@ -33,7 +33,8 @@ void process_packet(dns_packet_t *packet, opts_t *config)
                     packet->answers = realloc(packet->answers, answers_count * sizeof(dns_record_t));
                 }
                 dns_record_t *answer = malloc(sizeof(dns_record_t));
-                make_reply(question, name->addr, true, answer);
+                make_reply(question, name->addr, false, answer);
+//                make_reply(question, name->addr, true, answer);
                 packet->answers[answers_count - 1] = *answer;
                 free(answer);
             }

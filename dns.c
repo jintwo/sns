@@ -93,22 +93,37 @@ bool compare_labels(dns_labels_t *l1, dns_labels_t *l2)
     dns_labels_t *l2_ = malloc(label_size);
     copy_label(l1, l1_);
     copy_label(l2, l2_);
-    l1_ = reverse_label(l1_);
-    l2_ = reverse_label(l2_);
+    dns_labels_t *c1 = reverse_label(l1_);
+    dns_labels_t *c2 = reverse_label(l2_);
 
     bool result = false;
-    while (l1_ != l2_) {
-        if ((l1_ && !l2) || (!l1_ && l2)) {
+
+    while (c1 != c2) {
+        if (c1 && !(strcmp(c1->label, "*"))) {
+            result = true;
             break;
         }
 
-        if (strcmp(l1_->label, l2_->label) == 0) {
-            l1_ = l1_->next;
-            l2_ = l2_->next;
-        } else {
-            result = strcmp(l1_->label, "*") == 0 || strcmp(l2_->label, "*") == 0;
+        if (c2 && !(strcmp(c2->label, "*"))) {
+            result = true;
             break;
         }
+
+        if (c1 && c2) {
+            if (!strcmp(c1->label, c2->label)) {
+                c1 = c1->next;
+                c2 = c2->next;
+                continue;
+            } else {
+                result = false;
+                break;
+            }
+        } else if (!c1 && !c2) {
+            result = true;
+            break;
+        }
+
+        break;
     }
 
     free(l1_);
@@ -188,14 +203,14 @@ char *pack_record(dns_record_t *record, size_t *rlen)
     char *buf = malloc(record_len);
     char *start = buf;
 
-    if (!record->use_compression) {
+    if (record->use_compression) {
+        memcpy(buf, record->cptr, 2);
+        buf += 2;
+    } else {
         size_t domain_rec_len;
         char *domain = pack_label(record->label, &domain_rec_len);
         memcpy(buf, domain, domain_rec_len);
         buf += domain_rec_len;
-    } else {
-        memcpy(buf, record->cptr, 2);
-        buf += 2;
     }
 
     buf = write_uint16(buf, &record->rtype, true);
